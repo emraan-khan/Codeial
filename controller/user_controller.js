@@ -10,10 +10,16 @@ module.exports.orderRes = function(req, res){
 }
 
 module.exports.signIn = function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile')
+    }
     return res.render('user_signIn');
 }
 
 module.exports.signUp = function(req,res){
+    if(req.isAuthenticated()){
+       return  res.redirect('/users/profile')
+    }
     return res.render('user_signUp');
 }
 
@@ -48,5 +54,6 @@ module.exports.create = function(req,res){
 
 //sign in and create session for user
 module.exports.createSession = function(req, res){
-
+    return res.redirect('/');
 };
+
