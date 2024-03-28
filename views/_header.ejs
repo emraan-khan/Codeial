@@ -1,3 +1,18 @@
 <header>
     Page Header
+
+    <% if(locals.user){%>
+        <h2><%=user.name%></h2>
+        <h2>
+            <a href="/users/signOut">Sign Out</a>
+        </h2>
+        <% } else {%>
+            <h2>
+                <a href="/users/SignIn">Sign In</a>
+            </h2>
+            <h2>
+                <a href="/users/SignUp">Sign Up</a>
+            </h2>
+            <%}%>
+
 </header>

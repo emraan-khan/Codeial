@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser= require('cookie-parser');
 const app = express();
+const port = 8000;
 // ejs layout for rendering
 const  expressLayouts = require('express-ejs-layouts');
 // dbb
@@ -10,8 +11,8 @@ const session = require('express-session');
 const passport =require('passport');
 const passportLocal = require('./config/passport-local-strategy')
 
-const MongoStore = require('connect-mongo')(session);
-const port = 8000;
+// const MongoStore = require('connect-mongo')(session);
+
 
 app.use(express.urlencoded());
 
@@ -43,13 +44,13 @@ app.use(session({
     cookie: {
         maxAge: (1000*60*100)
     },
-    store: new MongoStore({
-        mongooseConnection: db,
-        autoRemove: 'disabled'
-    },
-    function(err){
-        console.log(err || 'connect-mongo setup ok')
-    })
+    // store: new MongoStore({
+    //     mongooseConnection: db,
+    //     autoRemove: 'disabled'
+    // },
+    // function(err){
+    //     console.log(err || 'connect-mongo setup ok')
+    // })
 }));
 
 app.use(passport.initialize());
