@@ -1,3 +1,9 @@
 body{
     background-color: bisque;
 }
+
+button{
+    width: 100px;
+    height: 40px;
+    font-size: large;
+}

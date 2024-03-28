@@ -1,4 +1,13 @@
 <link rel="stylesheet" href="/css/user.css">
 <h1>
     User Profile
+   <p>
+       <%=name  %>
+   </p> 
+   <p>
+       <%=email %>
+   </p>
+   <form action="/users/logout" method="POST">
+       <button>Log Out</button>
+   </form>
 </h1>
