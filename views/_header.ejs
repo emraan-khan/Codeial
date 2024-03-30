@@ -1,5 +1,9 @@
-<header>
-    Page Header
+<header class="header-nav">
+   <h2>
+       Page Header
+</h2> 
+
+    
 
     <% if(locals.user){%>
         <h2><%=user.name%></h2>
@@ -7,10 +11,8 @@
             <a href="/users/signOut">Sign Out</a>
         </h2>
         <% } else {%>
-            <h2>
+            <h2 class="signIn-sec">
                 <a href="/users/SignIn">Sign In</a>
-            </h2>
-            <h2>
                 <a href="/users/SignUp">Sign Up</a>
             </h2>
             <%}%>
