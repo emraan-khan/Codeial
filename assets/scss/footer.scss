@@ -7,16 +7,18 @@
 
 
 
-    a {
+    a{
         text-decoration: none;
-        border: 1px solid black;
+        border: 1px solid rgb(196, 177, 177);
+        color: white;
         padding: 4px 8px;
         border-radius: 5px;
         transition: 0.5s ease-in-out;
     }
 
-    a:hover {
+    a:hover{
         background-color: antiquewhite;
+        color: black;
     }
 
 
