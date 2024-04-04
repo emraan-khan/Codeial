@@ -55,7 +55,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     cookie: {
-        maxAge: (5000)
+        maxAge: (1000*24*36000)
     },
     store: MongoStore.create({
         mongoUrl: 'mongodb://127.0.0.1:27017/codeial_development',
