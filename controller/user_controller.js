@@ -1,9 +1,30 @@
 const User = require('../models/user')
 
 module.exports.user = function(req, res){
-    return res.render('userProfile')
+    User.findById(req.params.id)
+    .then((user)=>{
+        return res.render('userProfile',{
+            title: 'User Profile',
+            profile_user: user
+        })
+        
+    })
+    .catch()
 }
 
+module.exports.update= function(req,res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body)
+        .then(()=>{
+            return res.redirect('back');
+        })
+        .catch(err =>{
+            console.log('Error in updating the data ',err)
+        })
+    }else{
+        return res.status(401).send('Unauthorized')
+    }
+}
 
 module.exports.orderRes = function(req, res){
     return res.end('<h1>Muh mai lele!!!</h1>')
