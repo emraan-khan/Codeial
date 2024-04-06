@@ -1,24 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/footer.css">
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <%- style %>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/home.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
 
-    <%- include('_header') %>
+        <%- style %>
+    </head>
 
-    <main>
-        <%- body %>
-    </main>
+    <body>
 
-    <%- include('_footer') %>
+        <%- include('_header') %>
+            <span>Notification</span>
+            <% if(flash.success && flash.success.length> 0) {%>
+                <h5>
 
-    <%- script%>
-</body>
-</html>
+                    <%= flash.success[0] %>
+                </h5>
+                <%} %>
+
+                    <main>
+                        <%- body %>
+                    </main>
+
+                    <%- include('_footer') %>
+
+                        <%- script%>
+    </body>
+
+    </html>
