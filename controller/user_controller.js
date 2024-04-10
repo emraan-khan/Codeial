@@ -79,25 +79,41 @@ module.exports.createSession = function (req, res) {
     return res.redirect('/');
 };
 
-module.exports.destroySession = function (req, res) {
-    req.flash('success','You have logged out!');
-    console.log(req.flash('success')); // Log flash message
+// module.exports.destroySession = function (req, res) {
+//     req.flash('success','You have logged out!');
+//     console.log(req.flash('success')); // Log flash message
 
-    req.session.destroy(function (err) {
-        if (err) {
-            console.log(err);
+//     req.session.destroy(function (err) {
+//         if (err) {
+//             console.log(err);
             
-            return res.redirect('/');
-        }
-        // req.logout(function (err) { // Providing a callback function to req.logout()
-        //                                                                                                                                                                                                                                                         
-        //     if (err) {
-        //         console.log(err);
-        //         return res.redirect('/');
-        //     }
+//             return res.redirect('/');
+//         }
+//         // req.logout(function (err) { // Providing a callback function to req.logout()
+//         //                                                                                                                                                                                                                                                         
+//         //     if (err) {
+//         //         console.log(err);
+//         //         return res.redirect('/');
+//         //     }
 
-        // });
-            return res.redirect('/');
+//         // });
+//             return res.redirect('/');
+//     });
+// }
+
+module.exports.destroySession = function(req, res) {
+    req.logout(function(err) {
+        if (err) {
+            console.log('Error:-' + err);
+            return;
+        }
+        req.flash('success', 'You have logged out!');
+
+        res.redirect('/');
     });
+
 }
+
+
+
 

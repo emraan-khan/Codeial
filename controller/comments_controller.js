@@ -13,9 +13,12 @@ module.exports.create= function(req,res){
             .then(comment =>{
                 post.comments.push(comment);
                 post.save();
+                req.flash('success','commented')
                 res.redirect('/');
             })
             .catch(err =>{
+                req.flash('error','Error in commenting!!!')
+
                 console.log('Error while creating the comment.')
             })
          }
@@ -40,6 +43,7 @@ module.exports.destroy = function(req , res){
             .then(()=>{
                 Post.findByIdAndUpdate(PostId, {$pull: {comments: req.params.id}})
                 .then(()=>{
+                    req.flash('success',"Comment deleted.")
                     return res.redirect('back');
                 })
                 .catch(err =>{
