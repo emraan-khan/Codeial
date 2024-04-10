@@ -2,26 +2,6 @@ const Post = require('../models/post');
 const Comment = require('../models/comment')
 
 module.exports.create = async function (req, res) {
-    //     console.log('Post function')
-    //  let post=   Post.create({
-    //         content: req.body.content,
-    //         user: req.user._id })
-    //         .then(()=>{
-    //             if(req.xhr){
-    //                 return res.status(200).json({
-    //                     data: {
-    //                         post: post
-    //                     },
-    //                     message: 'Post Created!'
-    //                 })
-    //             }
-    //             req.flash('success','Post published!');
-    //             return res.redirect('back');
-    //         })
-    //         .catch(err =>{
-    //             req.error('error','Error in publishing Post!')
-    //             console.log('Error in creating Post!!!')
-    //         })
 
     try {
 
@@ -57,6 +37,15 @@ module.exports.destroy = function (req, res) {
                         // Remove associated comments
                         Comment.deleteMany({ post: req.params.id })
                             .then(() => {
+
+                                if(req.xhr){
+                                    return res.status(200).json({
+                                        data:{
+                                            post_id:req.params.id
+                                        },
+                                        message: 'Post Deleted!'
+                                    })
+                                }
                                 req.flash('success', 'Post and associated comments deleted successfully!!!')
                                 console.log('Post and associated comments deleted successfully');
                                 return res.redirect('back');
