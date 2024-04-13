@@ -1,6 +1,6 @@
 const User = require('../models/user')
 
-module.exports.user = function (req, res) {
+module.exports.profile = function (req, res) {
     User.findById(req.params.id)
         .then((user) => {
             return res.render('userProfile', {
@@ -9,18 +9,44 @@ module.exports.user = function (req, res) {
             })
 
         })
-        .catch()
+        .catch(err =>{
+            console.log(err);
+        })
 }
 
-module.exports.update = function (req, res) {
+module.exports.update = async function (req, res) {
+    // if (req.user.id == req.params.id) {
+    //     User.findByIdAndUpdate(req.params.id, req.body)
+    //         .then(() => {
+    //             return res.redirect('back');
+    //         })
+    //         .catch(err => {
+    //             console.log('Error in updating the data ', err)
+    //         })
+    // } else {
+    //     return res.status(401).send('Unauthorized')
+    // }
+
     if (req.user.id == req.params.id) {
-        User.findByIdAndUpdate(req.params.id, req.body)
-            .then(() => {
+        try {
+
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req, res, function (err) {
+                if (err) { console.log('**** Multer Error', err) }
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                if (req.file) {
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
                 return res.redirect('back');
             })
-            .catch(err => {
-                console.log('Error in updating the data ', err)
-            })
+
+        } catch (err) {
+            console.log("Error ", err);
+            return res.redirect('back');
+        }
     } else {
         return res.status(401).send('Unauthorized')
     }
@@ -75,7 +101,7 @@ module.exports.create = function (req, res) {
 
 //sign in and create session for user
 module.exports.createSession = function (req, res) {
-    req.flash('success','Logged in Sucessfully');
+    req.flash('success', 'Logged in Sucessfully');
     return res.redirect('/');
 };
 
@@ -86,7 +112,7 @@ module.exports.createSession = function (req, res) {
 //     req.session.destroy(function (err) {
 //         if (err) {
 //             console.log(err);
-            
+
 //             return res.redirect('/');
 //         }
 //         // req.logout(function (err) { // Providing a callback function to req.logout()
@@ -101,8 +127,8 @@ module.exports.createSession = function (req, res) {
 //     });
 // }
 
-module.exports.destroySession = function(req, res) {
-    req.logout(function(err) {
+module.exports.destroySession = function (req, res) {
+    req.logout(function (err) {
         if (err) {
             console.log('Error:-' + err);
             return;
