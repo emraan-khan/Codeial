@@ -40,9 +40,7 @@ app.use(expressLayouts)
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
 
-// use express router 
-
-// ejs layouts
+// use express router
 
 // set up view engine
 app.set('view engine', 'ejs');
