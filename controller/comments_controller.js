@@ -1,26 +1,58 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const commentMailer = require('../mailers/comments_mailer');
 
 module.exports.create= function(req,res){
     Post.findById(req.body.post)
     .then(post =>{
          if(post){
+            // Comment.create({
+            //     content : req.body.content,
+            //     post: req.body.post,
+            //     user: req.user._id
+            // })
+            // .then(comment =>{
+            //     console.log('comment created');
+            //     post.comments.push(comment);
+            //     post.save();
+            //     comment.populate('user','name email')
+            //     .execPopulate()
+            //     .then(comment => {
+            //         console.log('inside created');
+            //         commentMailer.newComment(comment);
+            //     })
+            //     req.flash('success','commented')
+            //     res.redirect('/');
+            // })
+            // .catch(err =>{
+            //     req.flash('error','Error in commenting!!!')
+
+            //     console.log('Error while creating the comment.')
+            // })
+
             Comment.create({
-                content : req.body.content,
+                content: req.body.content,
                 post: req.body.post,
                 user: req.user._id
             })
-            .then(comment =>{
+            .then(comment => {
+                console.log('comment created');
                 post.comments.push(comment);
                 post.save();
-                req.flash('success','commented')
+                return Comment.populate(comment, { path: 'user', select: 'name email' });
+            })
+            .then(populatedComment => {
+                console.log('inside created');
+                commentMailer.newComment(populatedComment);
+                req.flash('success', 'commented');
                 res.redirect('/');
             })
-            .catch(err =>{
-                req.flash('error','Error in commenting!!!')
-
-                console.log('Error while creating the comment.')
-            })
+            .catch(err => {
+                req.flash('error', 'Error in commenting!!!');
+                console.log('Error while creating the comment:', err);
+            });
+            
+            
          }
     })
     .catch(err =>{

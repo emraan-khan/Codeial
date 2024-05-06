@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const ejs = require('ejs')
+const path = require('path')
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -8,7 +10,7 @@ let transporter = nodemailer.createTransport({
 
     auth: {
         user: 'imrankhan70565@gmail.com',
-        pass: 'emraan@000'
+        pass: 'emraan@123'
     }
 });
 
@@ -27,6 +29,6 @@ let renderTemplate = (data, relativePath) => {
 }
 
 module.exports = {
-    transporter: transporter,
-    renderTemplate: renderTemplate
+    transporter,
+    renderTemplate
 }
