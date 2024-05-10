@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-const commentMailer = require('../mailers/comments_mailer');
+const commentEmailWorker = require('../workers/comment_email_worker');
+const queue =   require('../config/kue');
 
 module.exports.create= function(req,res){
     Post.findById(req.body.post)
@@ -43,7 +44,14 @@ module.exports.create= function(req,res){
             })
             .then(populatedComment => {
                 console.log('inside created');
-                commentMailer.newComment(populatedComment);
+                // commentMailer.newComment(populatedComment);
+                let job = queue.create('emails',comment).save(function(err){
+                    if(err){
+                        console.log('error in creating a queue');
+
+                        console.log('job enqueued ',job.id);
+                    }
+                })
                 req.flash('success', 'commented');
                 res.redirect('/');
             })
