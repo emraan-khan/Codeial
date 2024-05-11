@@ -26,7 +26,6 @@ module.exports.create= function(req,res){
             //     res.redirect('/');
             // })
             // .catch(err =>{
-            //     req.flash('error','Error in commenting!!!')
 
             //     console.log('Error while creating the comment.')
             // })
