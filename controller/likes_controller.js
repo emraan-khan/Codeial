@@ -25,7 +25,10 @@ module.exports.toggleLike = async function(req,res){
             if(existingLike){
                 likeable.likes.pull(existingLike._id)
                 likeable.save();
-                        
+
+                existingLike.remove();
+                deleted = true;
+
             }else{
                 // make a new like
                 let newLike= await Like.create({
@@ -36,6 +39,13 @@ module.exports.toggleLike = async function(req,res){
                 likeable.likes.push(like_id);
                 likeable.save();
             }
+
+            return res.json(200, {
+                message: "Request successful!",
+                data: {
+                    deleted: deleted
+                }
+            })
 
     }catch(err){
         conosle.log(err);
