@@ -2,6 +2,7 @@ const Comment = require('../models/comment');
 const Post = require('../models/post');
 const commentEmailWorker = require('../workers/comment_email_worker');
 const queue =   require('../config/kue');
+const Like = require('../models/like');
 
 module.exports.create= function(req,res){
     Post.findById(req.body.post)
@@ -82,6 +83,10 @@ module.exports.destroy = function(req , res){
                 Post.findByIdAndUpdate(PostId, {$pull: {comments: req.params.id}})
                 .then(()=>{
                     req.flash('success',"Comment deleted.")
+                    Like.deleteMany({likeable: comment._id, onModel: 'Comment'})
+                    .then(()=>{
+                        console.log('Likes related to comment deleted')
+                    })
                     return res.redirect('back');
                 })
                 .catch(err =>{

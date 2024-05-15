@@ -10,8 +10,11 @@ module.exports.home = function (req, res) {
         path: 'comments',
         populate: {
             path: 'user'
+        },
+        populate: {
+            path: 'likes'
         }
-    })
+    }).populate('likes')
     .then(posts => {
         User.find({})
         .then((users)=>{
