@@ -1,44 +1,55 @@
-<div>
-<h1>
-    Codeial / <%= title %>
-</h1>
+<div class="home-div">
+    
+    <section id="feed-posts">
+        <h1>
+            Codeial / <%= title %>
+        </h1>
+        <h4>Posts</h4>
+        <% if(locals.user){ %>
+            <form action="/posts/create" id="new-post-form" method="POST">
+                <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+                <input type="submit" value="Post">
+            </form>
+            <% } %>
+
+                <div id="posts-list-container">
+                    <ul>
+                        <% for(post of posts){ %>
+
+                            <%- include('_post') -%>
+
+                                <%} %>
+                    </ul>
+                </div>
+    </section>
 
 
-<section id="feed-posts">
-    <h4>Posts</h4>
-    <% if(locals.user){ %>
-    <form action="/posts/create" id="new-post-form" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
-        <input type="submit" value="Post">
-    </form>
-    <% } %>
-
-    <div id="posts-list-container">
-        <ul>
-            <% for(post of posts){ %>
-                
-            <%- include('_post') -%>
-                
+    <section id="users_list">
+        <h4>Friends</h4>
+        <% for(u of all_users){%>
+            <p>
+                <a href="/users/profile/<%=u.id%>">
+                    <%=u.name%>
+                </a>
+            </p>
             <%} %>
-        </ul>
-    </div>
-</section>
-
-
-<section id="users_list">
-<h4>Friends</h4>
-<% for(u of all_users){%>
-    <p>
-<a href="/users/profile/<%=u.id%>"><%=u.name%></a>
-    </p>
-    <%} %>
-</section>
+    </section>
+    <%- include('_chat_box') -%>
 </div>
 <script src="/js/home_post.js"></script>
 <script src="/js/toggle_likes.js"></script>
 <script>
-    $('.toggle-like-button').each(function(){
+    $('.toggle-like-button').each(function () {
         let self = this;
         let toggleLike = new ToggleLike(self);
     });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
+
+<% if(locals.user){%>
+    <script>
+        new chatEngine('user-chat-box', '<%= locals.user._id%>')
+    </script>
+    <%} %>
