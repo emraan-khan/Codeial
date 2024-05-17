@@ -2,6 +2,9 @@ const express = require('express');
 const cookieParser= require('cookie-parser');
 const app = express();
 const port = 8000;
+const cors = require('cors');
+const socketIO = require('socket.io');
+
 // ejs layout for rendering
 const  expressLayouts = require('express-ejs-layouts');
 // dbb
@@ -28,6 +31,16 @@ const chatSocket = require('./config/chat_sockets').chatSockets(chatServer)
 chatServer.listen(5000);
 console.log('chat Server is listeing on port number : 5000');
 
+// const io = socketIO(chatServer, {
+//     cors: {
+//       origin: "*",
+//     //   methods: ["GET", "POST"]
+//     }
+//   });
+const io = require('socket.io')(chatServer, {cors: {origin: "*"}});
+// Enable CORS for Socket.IO
+// io.origins('*:*');
+
 app.use(sassMiddleware({
     src: './assets/scss',
     dest: './assets/css',
@@ -35,6 +48,8 @@ app.use(sassMiddleware({
     outputStyle: 'extended',
     prefix: '/css'
 }));
+
+app.use(cors());
 
 app.use(express.urlencoded());
 
