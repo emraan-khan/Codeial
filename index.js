@@ -5,6 +5,8 @@ const port = 8000;
 const cors = require('cors');
 const socketIO = require('socket.io');
 
+const env = require('./config/environment')
+
 // ejs layout for rendering
 const  expressLayouts = require('express-ejs-layouts');
 // dbb
@@ -24,6 +26,7 @@ const MongoStore = require('connect-mongo');
 const sassMiddleware = require('node-sass-middleware');
 const flash= require('connect-flash')
 const customMware = require('./config/middleware');
+const { asset_path } = require('./config/environment');
 
 // setting up chat server with socket.io
 const chatServer = require('http').Server(app);
@@ -40,10 +43,11 @@ console.log('chat Server is listeing on port number : 5000');
 const io = require('socket.io')(chatServer, {cors: {origin: "*"}});
 // Enable CORS for Socket.IO
 // io.origins('*:*');
+const path = require('path');
 
 app.use(sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
+    src: path.join(__dirname,env.asset_path,'scss'),
+    dest: path.join(__dirname,env.asset_path,'css'),
     debug: true,
     outputStyle: 'extended',
     prefix: '/css'
@@ -55,7 +59,7 @@ app.use(express.urlencoded());
 
 app.use(cookieParser());
 
-app.use(express.static('./assets'))
+app.use(express.static(env.asset_path))
 
 // making the upload path available to the browser
 app.use('/uploads',express.static(__dirname+'/uploads'))
@@ -76,7 +80,7 @@ app.set('views', './views')
 app.use(session({
     name: 'codeial',
     // TODO change the secret before deployment in production mode
-    secret: 'numnumlunglung',
+    secret: env.session_cookie_key,
     saveUninitialized: false,
     resave: false,
     cookie: {
