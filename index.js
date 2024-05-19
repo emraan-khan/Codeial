@@ -3,6 +3,7 @@ const cookieParser= require('cookie-parser');
 const app = express();
 const port = 8000;
 const cors = require('cors');
+const logger = require('morgan')
 const socketIO = require('socket.io');
 
 const env = require('./config/environment')
@@ -44,6 +45,9 @@ const io = require('socket.io')(chatServer, {cors: {origin: "*"}});
 // Enable CORS for Socket.IO
 // io.origins('*:*');
 const path = require('path');
+
+// we are providing the middleware for loging the data into development mode 
+// app.use(logger(env.morgan.mode, env.morgan.options))
 
 app.use(sassMiddleware({
     src: path.join(__dirname,env.asset_path,'scss'),
