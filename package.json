@@ -23,6 +23,8 @@
     "express": "^4.19.2",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.0",
+    "gulp-rev": "^11.0.0",
+    "gulp-sass": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "kue": "^0.11.6",
     "local": "^0.3.3",
@@ -36,6 +38,11 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "rotating-file-stream": "^3.2.1",
+    "sass": "^1.77.2",
     "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-cssnano": "^2.1.3"
   }
 }

@@ -6,6 +6,8 @@ const cors = require('cors');
 const logger = require('morgan')
 const socketIO = require('socket.io');
 
+const gulp = require('gulp')
+
 const env = require('./config/environment')
 
 // ejs layout for rendering
