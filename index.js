@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser= require('cookie-parser');
 const app = express();
+require('./config/view_helpers')(app);
 const port = 8000;
 const cors = require('cors');
 const logger = require('morgan')
